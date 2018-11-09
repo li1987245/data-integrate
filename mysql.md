@@ -736,3 +736,38 @@ convert：
 8) 表没分析，数据删除时数据文件和索引文件不回收，可以使用optimize table分析
 9) 最左前缀原则.
 ```
+### mariadb columnstore
+- 启动
+```
+rpm -ivh mariadb-columnstore*.rpm
+/usr/local/mariadb/columnstore/bin/postConfigure 配置
+/usr/local/mariadb/columnstore/bin/columnstore start/stop 启动/关闭
+```
+- 卸载
+```
+yum -y remove mari*
+rm -rf /usr/local/mariadb/columnstore
+rm -rf /tmp/*
+```
+- 导入
+```
+CREATE TABLE `fact_api_product_d` (
+  `statis_date` char(8) DEFAULT NULL COMMENT '统计日期',
+  `api_type` varchar(50) DEFAULT NULL COMMENT 'Api类型:hxapi,hnapi,zhapi,clapi,bxapi',
+  `api_code` varchar(20) DEFAULT NULL COMMENT '客户接口编码',
+  `meal_type` char(1) DEFAULT '-' COMMENT '接口类型：1.整合接口,2.基本接口',
+  `event_id` varchar(200) DEFAULT '-' COMMENT '事件类型',
+  `product_id` varchar(200) DEFAULT NULL COMMENT '子产品代号',
+  `tel_type` varchar(2) DEFAULT '-' COMMENT '运营商类型：1-电信,2-联通,3-移动,4-其他,99-异常手机号',
+  `req_cnt` int(11) DEFAULT NULL COMMENT '查询次数',
+  `req_user` int(11) DEFAULT NULL COMMENT '查询人数',
+  `req_v_cnt` int(11) DEFAULT NULL COMMENT '有效查询次数',
+  `req_v_user` int(11) DEFAULT NULL COMMENT '有效查询人数',
+  `res_cnt` int(11) DEFAULT NULL COMMENT '响应次数',
+  `res_user` int(11) DEFAULT NULL COMMENT '响应人数',
+  `res_v_cnt` int(11) DEFAULT NULL COMMENT '有效响应次数',
+  `res_v_user` int(11) DEFAULT NULL COMMENT '有效响应人数'
+) ENGINE=Columnstore DEFAULT CHARSET=utf8 COMMENT='公司对外Api请求日汇总表'
+truncate table fact_api_product_d;
+cpimport -m1 -s "|" data_insight fact_api_product_d  /root/fact_api_product_d.txt
+```
