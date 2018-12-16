@@ -5741,3 +5741,129 @@ yarn.nodemanager.delete.thread-count=4
 - rcmd: socket: Permission denied
 解决方法：
 在/etc/pdsh下面新建文件rcmd_default，写入ssh，然后回车，记得一定要输入一个回车符另起一行，不然会提示ssh exit with code 1
+
+- WARN org.apache.hadoop.yarn.server.nodemanager.containermanager.monitor.ContainersMonitorImpl: NodeManager configured with 8 G physical memory allocated to containers, which is more than 80% of the total physical memory available (1.8 G)
+解决：编辑 $HADOOP_HOME/etc/hadoop/yarn-site.xml，加入以下配置：
+
+<property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>1024</value>
+</property>
+<property>
+    <name>yarn.scheduler.minimum-allocation-mb</name>
+    <value>256</value>
+</property>
+<property>
+    <name>yarn.scheduler.maximum-allocation-mb</name>
+    <value>1024</value>
+</property>
+- requested resource type=[memory-mb] < 0 or greater than maximum allowed allocation
+解决：
+如果是mapreduce执行引擎，修改mapred-site.xml
+<property>
+<name>mapreduce.map.memory.mb</name>
+<value>512</value>
+</property>
+<property>
+<name>mapreduce.reduce.memory.mb</name>
+<value>512</value>
+</property>
+<property>
+<name>yarn.app.mapreduce.am.resource.mb</name>
+<value>512</value>
+</property>
+同时yarn AM 也需要设置大小，默认情况下，yarn.app.mapreduce.am.resource.mb是2G，需要少于yarn.scheduler.maximum-allocation-mb的配置，这样才能成功启动。
+https://blog.csdn.net/xuxiuning/article/details/51074127
+- running beyond virtual memory limits. Current usage: 32.1mb of 1.0gb physical memory used; 6.2gb of 2.1gb virtual memory used. Killing container。
+该错误是YARN的虚拟内存计算方式导致，上例中用户程序申请的内存为1Gb，YARN根据此值乘以一个比例（默认为2.1）得出申请的虚拟内存的 值，当YARN计算的用户程序所需虚拟内存值大于计算出来的值时，就会报出以上错误。调节比例值可以解决该问题。具体参数为：yarn-site.xml 中的yarn.nodemanayger.vmem-check-enabled
+<property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+</property>
+<property>
+   <name>yarn.nodemanager.vmem-pmem-ratio</name>
+    <value>5</value>
+</property>
+
+
+## hive
+### 配置
+```
+cp hive-default.xml.template hive-site.xml
+<property>
+　　<name>javax.jdo.option.ConnectionURL</name>
+　　<value>jdbc:mysql://localhost:3306/hive?createDatabaseIfNotExist=true</value>
+</property>
+<property>
+　　<name>javax.jdo.option.ConnectionDriverName</name>
+　　<value>com.mysql.jdbc.Driver</value>
+</property>
+<property>
+　　<name>javax.jdo.option.ConnectionUserName</name>
+　　<value>root</value>
+</property>
+<property>
+　　<name>javax.jdo.option.ConnectionPassword</name>
+　　<value>root</value>
+</property>
+
+<!--配置hiveserver2-->
+  <property>
+    <name>hive.server2.thrift.bind.host</name>
+    <value>slave01</value>
+    <description>Bind host on which to run the HiveServer2 Thrift service.</description>
+  </property>
+
+  <property>
+    <name>hive.server2.thrift.port</name>
+    <value>10000</value>
+    <description>Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is 'binary'.</description>
+  </property>
+
+  <property>
+    <name>hive.server2.thrift.http.port</name>
+    <value>10001</value>
+    <description>Port number of HiveServer2 Thrift interface when hive.server2.transport.mode is 'http'.</description>
+  </property>
+<property>
+    <name>hive.server2.thrift.client.user</name>
+    <value>hadoop</value>
+    <description>Username to use against thrift client</description>
+  </property>
+  <property>
+    <name>hive.server2.thrift.client.password</name>
+    <value>hadoop</value>
+    <description>Password to use against thrift client</description>
+  </property>
+<!--解决权限拒绝-->
+hadoop/etc/hadoop/core-site.xml
+
+    <property>
+    <name>hadoop.proxyuser.hadoop.hosts</name>
+    <!--value>master</value-->
+    <value>*</value>
+    </property>
+
+    <property>
+    <name>hadoop.proxyuser.hadoop.groups</name>
+    <!--value>hadoop</value-->
+    <value>*</value>
+    </property>
+Hadoop.proxyuser.hadoop.hosts配置项名称中hadoop部分为报错User:* 中的用户名部分
+
+替换system:java.io.tmpdir和system:user.name变量
+cp hive-env.sh.template hive-env.sh
+```
+### 初始化
+```
+./schematool -initSchema -dbType mysql
+```
+### 启动hiveserver2
+```
+
+启动hiveserver2,   # nohup hive --service hiveserver2 & 
+beeline -u jdbc:hive2://localhost:10000 -n hadoop
+select count(*),species from iris group by species;
+```
+
+
