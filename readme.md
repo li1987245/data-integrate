@@ -1,10 +1,57 @@
+mysql> show character set;
++----------+-----------------------------+---------------------+--------+
+| Charset  | Description                 | Default collation   | Maxlen |
++----------+-----------------------------+---------------------+--------+
+| big5     | Big5 Traditional Chinese    | big5_chinese_ci     |      2 |
+| dec8     | DEC West European           | dec8_swedish_ci     |      1 |
+| cp850    | DOS West European           | cp850_general_ci    |      1 |
+| hp8      | HP West European            | hp8_english_ci      |      1 |
+| koi8r    | KOI8-R Relcom Russian       | koi8r_general_ci    |      1 |
+| latin1   | cp1252 West European        | latin1_swedish_ci   |      1 |
+| latin2   | ISO 8859-2 Central European | latin2_general_ci   |      1 |
+| swe7     | 7bit Swedish                | swe7_swedish_ci     |      1 |
+| ascii    | US ASCII                    | ascii_general_ci    |      1 |
+| ujis     | EUC-JP Japanese             | ujis_japanese_ci    |      3 |
+| sjis     | Shift-JIS Japanese          | sjis_japanese_ci    |      2 |
+| hebrew   | ISO 8859-8 Hebrew           | hebrew_general_ci   |      1 |
+| tis620   | TIS620 Thai                 | tis620_thai_ci      |      1 |
+| euckr    | EUC-KR Korean               | euckr_korean_ci     |      2 |
+| koi8u    | KOI8-U Ukrainian            | koi8u_general_ci    |      1 |
+| gb2312   | GB2312 Simplified Chinese   | gb2312_chinese_ci   |      2 |
+| greek    | ISO 8859-7 Greek            | greek_general_ci    |      1 |
+| cp1250   | Windows Central European    | cp1250_general_ci   |      1 |
+| gbk      | GBK Simplified Chinese      | gbk_chinese_ci      |      2 |
+| latin5   | ISO 8859-9 Turkish          | latin5_turkish_ci   |      1 |
+| armscii8 | ARMSCII-8 Armenian          | armscii8_general_ci |      1 |
+| utf8     | UTF-8 Unicode               | utf8_general_ci     |      3 |
+| ucs2     | UCS-2 Unicode               | ucs2_general_ci     |      2 |
+| cp866    | DOS Russian                 | cp866_general_ci    |      1 |
+| keybcs2  | DOS Kamenicky Czech-Slovak  | keybcs2_general_ci  |      1 |
+| macce    | Mac Central European        | macce_general_ci    |      1 |
+| macroman | Mac West European           | macroman_general_ci |      1 |
+| cp852    | DOS Central European        | cp852_general_ci    |      1 |
+| latin7   | ISO 8859-13 Baltic          | latin7_general_ci   |      1 |
+| utf8mb4  | UTF-8 Unicode               | utf8mb4_general_ci  |      4 |
+| cp1251   | Windows Cyrillic            | cp1251_general_ci   |      1 |
+| utf16    | UTF-16 Unicode              | utf16_general_ci    |      4 |
+| cp1256   | Windows Arabic              | cp1256_general_ci   |      1 |
+| cp1257   | Windows Baltic              | cp1257_general_ci   |      1 |
+| utf32    | UTF-32 Unicode              | utf32_general_ci    |      4 |
+| binary   | Binary pseudo charset       | binary              |      1 |
+| geostd8  | GEOSTD8 Georgian            | geostd8_general_ci  |      1 |
+| cp932    | SJIS for Windows Japanese   | cp932_japanese_ci   |      2 |
+| eucjpms  | UJIS for Windows Japanese   | eucjpms_japanese_ci |      3 |
++----------+-----------------------------+---------------------+--------+
+
+-FEDERATED 引擎
+跨库操作（不同实例，相同实例只需要【库名.表】操作即可）
 ## 启动
 hadoop namenode -format(第一次)
 start-dfs.sh
 start-yarn.sh
 mr-jobhistory-daemon.sh start historyserver
 ##配置
-### core-site.xml  
+### core-site.xml
 
 **属性名称**
 
@@ -1910,7 +1957,7 @@ hadoop.zk.auth
 
 ### hdfs-site.xml
 
-  
+
 
 **属性名称**
 
@@ -4716,7 +4763,7 @@ yarn.scheduler.maximum-allocation-mb
 
 以MB为单位
 
-yarn.resourcemanager.nodes.include-path/  
+yarn.resourcemanager.nodes.include-path/
 yarn.resourcemanager.nodes.exclude-path
 
 NodeManagers的permitted/excluded列表
@@ -4783,26 +4830,26 @@ mapreduce.reduce.shuffle.parallelcopies
 ### 参数汇总
 
 linux参数
-以下参数最好优化一下： 
-文件描述符ulimit -n 
-用户最大进程 nproc （hbase需要 hbse book） 
-关闭swap分区 
-设置合理的预读取缓冲区 
+以下参数最好优化一下：
+文件描述符ulimit -n
+用户最大进程 nproc （hbase需要 hbse book）
+关闭swap分区
+设置合理的预读取缓冲区
 Linux的内核的IO调度器
 
 JVM参数
 JVM方面的优化项Hadoop Performance Tuning Guide
 
 Hadoop参数大全
-适用版本：4.3.0 
-主要配置文件： 
-core 
-hdfs 
-yarn 
-mapred 
-重要性表示如下： 
-重要 
-一般 
+适用版本：4.3.0
+主要配置文件：
+core
+hdfs
+yarn
+mapred
+重要性表示如下：
+重要
+一般
 不重要
 
 core-default.xml
@@ -4810,16 +4857,16 @@ hadoop.common.configuration.version
 配置文件的版本。
 
 hadoop.tmp.dir=/tmp/hadoop-${user.name}
-Hadoop的临时目录，其它目录会基于此路径。本地目录。 
-只可以设置一个值；建议设置到一个足够空间的地方，而不是默认的/tmp下 
+Hadoop的临时目录，其它目录会基于此路径。本地目录。
+只可以设置一个值；建议设置到一个足够空间的地方，而不是默认的/tmp下
 服务端参数，修改需重启
 
 hadoop.security.authorization=false
-是否开启安全服务验证。 
+是否开启安全服务验证。
 建议不开启。认证操作比较复杂，在公司内部网络下，重要性没那么高
 
 io.file.buffer.size=4096
-在读写文件时使用的缓存大小。这个大小应该是内存Page的倍数。 
+在读写文件时使用的缓存大小。这个大小应该是内存Page的倍数。
 建议1M
 
 io.compression.codecs=null
@@ -4832,16 +4879,16 @@ HA方式，这里设置服务名，例如：hdfs://mycluster1
 HDFS的客户端访问HDFS需要此参数。
 
 fs.trash.interval=0
-以分钟为单位的垃圾回收时间，垃圾站中数据超过此时间，会被删除。如果是0，垃圾回收机制关闭。可以配置在服务器端和客户端。如果在服务器端配置trash无效，会检查客户端配置。如果服务器端配置有效，客户端配置会忽略。 
-建议开启，建议10080（7天） 
+以分钟为单位的垃圾回收时间，垃圾站中数据超过此时间，会被删除。如果是0，垃圾回收机制关闭。可以配置在服务器端和客户端。如果在服务器端配置trash无效，会检查客户端配置。如果服务器端配置有效，客户端配置会忽略。
+建议开启，建议10080（7天）
 垃圾回收站，如有同名文件被删除，会给文件顺序编号，例如：a.txt,a.txt(1)
 
 fs.trash.checkpoint.interval=0
-以分钟为单位的垃圾回收检查间隔。应该小于或等于fs.trash.interval。如果是0，值等同于fs.trash.interval。每次检查器运行，会创建新的检查点。 
+以分钟为单位的垃圾回收检查间隔。应该小于或等于fs.trash.interval。如果是0，值等同于fs.trash.interval。每次检查器运行，会创建新的检查点。
 建议设置为60（1小时）
 
 dfs.ha.fencing.methods=null
-HDFS的HA功能的防脑裂方法。可以是内建的方法(例如shell和sshfence)或者用户定义的方法。建议使用sshfence(hadoop:9922)，括号内的是用户名和端口，注意，这需要NN的2台机器之间能够免密码登陆 
+HDFS的HA功能的防脑裂方法。可以是内建的方法(例如shell和sshfence)或者用户定义的方法。建议使用sshfence(hadoop:9922)，括号内的是用户名和端口，注意，这需要NN的2台机器之间能够免密码登陆
 fences是防止脑裂的方法，保证NN中仅一个是Active的，如果2者都是Active的，新的会把旧的强制Kill。
 
 dfs.ha.fencing.ssh.private-key-files=null
@@ -4920,7 +4967,7 @@ fs.AbstractFileSystem.hdfs.impl=org.apache.hadoop.fs.Hdfs
 文件系统实现类：hdfs
 
 fs.AbstractFileSystem.viewfs.impl=org.apache.hadoop.fs.viewfs.ViewFs
-文件系统实现类：viewfs (例如客户端挂载表)。 
+文件系统实现类：viewfs (例如客户端挂载表)。
 在实现federation特性时，客户端可以部署此系统，方便同时访问多个nameservice
 
 fs.ftp.host=0.0.0.0
@@ -5029,7 +5076,7 @@ tfile.io.chunk.size=1048576
 非hdfs文件系统，暂不关注
 
 hadoop.http.authentication.type=simple
-Oozie Http终端安全验证。可选值：simple | kerberos |#AUTHENTICATION_HANDLER_CLASSNAME# 
+Oozie Http终端安全验证。可选值：simple | kerberos |#AUTHENTICATION_HANDLER_CLASSNAME#
 建议simple，关闭验证
 
 hadoop.http.authentication.token.validity=36000
@@ -5112,9 +5159,9 @@ hadoop.hdfs.configuration.version=1
 配置文件的版本
 
 dfs.datanode.address=0.0.0.0:50010
-DN服务地址和端口，用于数据传输。0表示任意空闲端口。 
-xferPort dfs.datanode.address 50010 数据流地址 数据传输 
-infoPort dfs.datanode.http.address 50075 
+DN服务地址和端口，用于数据传输。0表示任意空闲端口。
+xferPort dfs.datanode.address 50010 数据流地址 数据传输
+infoPort dfs.datanode.http.address 50075
 ipcPort dfs.datanode.ipc.address 50020 命令
 
 dfs.datanode.http.address=0.0.0.0:50075
@@ -5172,9 +5219,9 @@ dfs.client.block.write.replace-datanode-on-failure.enable=true
 在进行pipeline写数据（上传数据的方式）时，如果DN或者磁盘故障，客户端将尝试移除失败的DN，然后写到剩下的磁盘。一个结果是，pipeline中的DN减少了。这个特性是添加新的DN到pipeline。这是一个站点范围的选项。当集群规模非常小时，例如3个或者更小，集群管理者可能想要禁止掉此特性。
 
 dfs.client.block.write.replace-datanode-on-failure.policy=DEFAULT
-此属性仅在dfs.client.block.write.replace-datanode-on-failure.enable设置为true时有效。 
-ALWAYS: 总是添加新的DN 
-NEVER: 从不添加新的DN 
+此属性仅在dfs.client.block.write.replace-datanode-on-failure.enable设置为true时有效。
+ALWAYS: 总是添加新的DN
+NEVER: 从不添加新的DN
 DEFAULT: 设r是副本数，n是要写的DN数。在r>=3并且floor(r/2)>=n或者r>n(前提是文件是hflushed/appended)时添加新的DN。
 
 dfs.heartbeat.interval=3
@@ -5202,19 +5249,19 @@ dfs.stream-buffer-size=4096
 文件流缓存大小。需要是硬件page大小的整数倍。在读写操作时，数据缓存大小。注意和core-default.xml中指定文件类型的缓存是不同的，这个是dfs共用的
 
 dfs.namenode.num.extra.edits.retained=1000000
-除最小的必须的editlog之外，额外保留的editlog文件数量。这是有用的，可以用于审核目的，或者HA设置一个远程Standby节点并且有时可能离线时，都需要保留一个较长的backlog。 
-典型的，每个edit大约几百字节，默认的1百万editlog大约有百兆到1G。注意：早先的extra edits文件可能操作这里设置的值，因为还有其它选项，例如dfs.namenode.max.extra.edits.segments.retained 
+除最小的必须的editlog之外，额外保留的editlog文件数量。这是有用的，可以用于审核目的，或者HA设置一个远程Standby节点并且有时可能离线时，都需要保留一个较长的backlog。
+典型的，每个edit大约几百字节，默认的1百万editlog大约有百兆到1G。注意：早先的extra edits文件可能操作这里设置的值，因为还有其它选项，例如dfs.namenode.max.extra.edits.segments.retained
 建议值：2200，约3天的
 
 dfs.datanode.handler.count=10
 DN的服务线程数。这些线程仅用于接收请求，处理业务命令
 
 dfs.datanode.failed.volumes.tolerated=0
-可以接受的卷的失败数量。默认值0表示，任一个卷失败都会导致DN关闭。 
+可以接受的卷的失败数量。默认值0表示，任一个卷失败都会导致DN关闭。
 建议设置此值，避免个别磁盘问题。如果此值超过真实磁盘数，将会报错，启动失败
 
 dfs.namenode.support.allow.format=true
-NN是否允许被格式化？在生产系统，把它设置为false，阻止任何格式化操作在一个运行的DFS上。 
+NN是否允许被格式化？在生产系统，把它设置为false，阻止任何格式化操作在一个运行的DFS上。
 建议初次格式化后，修改配置禁止
 
 dfs.client.failover.max.attempts=15
@@ -5227,25 +5274,25 @@ dfs.client.failover.connection.retries.on.timeouts=0
 专家设置。IPC客户端失败重试次数，此失败仅指超时失败。在网络不稳定时建议加大此值
 
 dfs.nameservices=null
-nameservices列表。逗号分隔。 
+nameservices列表。逗号分隔。
 我们常用的仅配置一个，启动federation功能需要配置多个
 
 dfs.nameservice.id=null
 nameservice id，如果没有配置或者配置多个，由匹配到的本地节点地址配置的IP地址决定。我们进配置一个NS的情况下，建议这里不配置
 
 dfs.ha.namenodes.EXAMPLENAMESERVICE=null
-包含一个NN列表。EXAMPLENAMESERVICE是指具体的nameservice名称，通常就是dfs.nameservices中配置的。值是预备配置的NN的ID。 
+包含一个NN列表。EXAMPLENAMESERVICE是指具体的nameservice名称，通常就是dfs.nameservices中配置的。值是预备配置的NN的ID。
 ID是自己取的，不重复就可以，例如nn1,nn2
 
 dfs.ha.namenode.id=null
-NN的ID，如果没有配置，由系统决定。通过匹配本地节点地址和配置的地址。 
+NN的ID，如果没有配置，由系统决定。通过匹配本地节点地址和配置的地址。
 这里设置的是本机的NN的ID（此配置仅对NN生效），由于要配置2个NN，建议没有特殊需要，这里不进行配置
 
 dfs.ha.automatic-failover.enabled=FALSE
 是否开启自动故障转移。建议开启，true
 
 dfs.namenode.avoid.write.stale.datanode=FALSE
-决定是否避开在脏DN上写数据。写操作将会避开脏DN，除非超过一个配置的比率 (dfs.namenode.write.stale.datanode.ratio)。 
+决定是否避开在脏DN上写数据。写操作将会避开脏DN，除非超过一个配置的比率 (dfs.namenode.write.stale.datanode.ratio)。
 尝试开启
 
 dfs.journalnode.rpc-address=0.0.0.0:8485
@@ -5255,7 +5302,7 @@ dfs.journalnode.http-address=0.0.0.0:8480
 JournalNode的HTTP地址和端口。端口设置为0表示随机选择。
 
 dfs.namenode.audit.loggers=default
-审查日志的实现类列表，能够接收audit事件。它们需要实现 org.apache.hadoop.hdfs.server.namenode.AuditLogger接口。默认值”default”可以用于引用默认的audit logger， 它使用配置的日志系统。安装客户自己的audit loggers可能影响NN的稳定性和性能。 
+审查日志的实现类列表，能够接收audit事件。它们需要实现 org.apache.hadoop.hdfs.server.namenode.AuditLogger接口。默认值”default”可以用于引用默认的audit logger， 它使用配置的日志系统。安装客户自己的audit loggers可能影响NN的稳定性和性能。
 建议default，开启
 
 dfs.client.socket-timeout=60*1000
@@ -5424,7 +5471,7 @@ dfs.image.transfer.bandwidthPerSec=0
 Image文件传输时可以使用的最大带宽，秒字节。0表示没有限制。HA方式使用不到，可不关注
 
 dfs.datanode.max.transfer.threads=4096
-= 旧参数 dfs.datanode.max.xcievers 
+= 旧参数 dfs.datanode.max.xcievers
 DN上传送数据出入的最大线程数。
 
 dfs.datanode.readahead.bytes=4193404
@@ -5476,7 +5523,7 @@ dfs.namenode.avoid.read.stale.datanode=FALSE
 决定是否避开从脏DN上读数据。脏DN指在一个指定的时间间隔内没有收到心跳信息。脏DN将被移到可以读取节点列表的尾端。尝试开启
 
 dfs.namenode.stale.datanode.interval=30000
-标记一个DN是脏的时间间隔。例如，如果NN在此设定的时间内没有接收到来自某一个节点的心跳信息，此DN将被标记为脏的。此间隔不能太小，否则容易导致被频繁的标记为脏DN。 
+标记一个DN是脏的时间间隔。例如，如果NN在此设定的时间内没有接收到来自某一个节点的心跳信息，此DN将被标记为脏的。此间隔不能太小，否则容易导致被频繁的标记为脏DN。
 我们建议是1分钟
 
 dfs.namenode.write.stale.datanode.ratio=0.5f
@@ -5489,7 +5536,7 @@ dfs.namenode.replication.work.multiplier.per.iteration=2
 高级属性。改变需小心。
 
 dfs.webhdfs.enabled=FALSE
-在NN和DN上开启WebHDFS (REST API)功能。 
+在NN和DN上开启WebHDFS (REST API)功能。
 可以开启尝试
 
 hadoop.fuse.connection.timeout=300
@@ -5521,13 +5568,13 @@ dfs.domain.socket.path=/var/run/hadoop-hdfs/dn._PORT
 
 yarn-default.xml
 yarn.app.mapreduce.am.env=null
-用户为MR AM添加环境变量。例如： 
-A=foo 设置环境变量A为foo 
+用户为MR AM添加环境变量。例如：
+A=foo 设置环境变量A为foo
 B=$B:c 继承并设置TT内的B变量
 
 yarn.app.mapreduce.am.command-opts=-Xmx1024m
-MR AM的Java opts。如下符号会被替换： 
-@taskid@ 被替换成当前的TaskID。其它出现的’@’不会改变。例如，为了让gc日志能够按task打印存储在/tmp目录，可以设置’value’为：-Xmx1024m -verbose:gc -Xloggc:/tmp/@taskid@.gc 
+MR AM的Java opts。如下符号会被替换：
+@taskid@ 被替换成当前的TaskID。其它出现的’@’不会改变。例如，为了让gc日志能够按task打印存储在/tmp目录，可以设置’value’为：-Xmx1024m -verbose:gc -Xloggc:/tmp/@taskid@.gc
 如果hadoop本地库可以使用，使用-Djava.library.path参数可能造成程序的此功能无效。这个值应该被替换，设置在MR的JVM环境中LD_LIBRARY_PATH变量中，使用 mapreduce.map.env和mapreduce.reduce.env配置项。
 
 yarn.app.mapreduce.am.resource.mb=1536
@@ -5546,7 +5593,7 @@ yarn.resourcemanager.admin.address=0.0.0.0:8033
 RM管理接口地址：端口
 
 yarn.resourcemanager.am.max-retries=1
-AM重试最大次数。服务端参数。重启生效。 
+AM重试最大次数。服务端参数。重启生效。
 建议4
 
 yarn.resourcemanager.nodes.include-path=null
@@ -5556,7 +5603,7 @@ yarn.resourcemanager.nodes.exclude-path=null
 存储拒绝节点列表的文件。如和包含文件冲突，包含文件优先级高
 
 yarn.resourcemanager.scheduler.class=org.apache.hadoop.yarn.server.resourcemanager.scheduler.fifo.FifoScheduler
-调度器实现类。 
+调度器实现类。
 建议使用公平调度器
 
 yarn.scheduler.minimum-allocation-mb=1024
@@ -5581,15 +5628,15 @@ yarn.nodemanager.env-whitelist=JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HAD
 container应该覆盖而不是使用NM的环境变量名单。允许container自己配置的环境变量
 
 yarn.nodemanager.delete.debug-delay-sec=0
-秒，一个app完成后，NM删除服务将删除app的本地文件目录和日志目录。为了诊断问题，把这个选项设置成足够大的值（例如，设置为10分钟），可以继续访问这些目录。设置此选项，需要重启NM。Yarn应用的工作目录根路径是yarn.nodemanager.local-dirs，Yarn应用日志目录的根路径是yarn.nodemanager.log-dirs。 
+秒，一个app完成后，NM删除服务将删除app的本地文件目录和日志目录。为了诊断问题，把这个选项设置成足够大的值（例如，设置为10分钟），可以继续访问这些目录。设置此选项，需要重启NM。Yarn应用的工作目录根路径是yarn.nodemanager.local-dirs，Yarn应用日志目录的根路径是yarn.nodemanager.log-dirs。
 调试问题时可用
 
 yarn.nodemanager.local-dirs=${hadoop.tmp.dir}/nm-local-dir
-本地文件存储目录，列表。一个应用的本地文件目录定位方式：yarn.nodemanager.local−dirs/usercache/yarn.nodemanager.local−dirs/usercache/{user}/appcache/application_${appid}。每个container的工作目录，是此目录的子目录，目录名是container_${contid}。 
+本地文件存储目录，列表。一个应用的本地文件目录定位方式：yarn.nodemanager.local−dirs/usercache/yarn.nodemanager.local−dirs/usercache/{user}/appcache/application_${appid}。每个container的工作目录，是此目录的子目录，目录名是container_${contid}。
 非常重要，建议配置多个磁盘，平衡IO。
 
 yarn.nodemanager.log-dirs=${yarn.log.dir}/userlogs
-存储container日志的地方。一个应用的本地日志目录定位是：${yarn.nodemanager.log-dirs}/application_${appid}。每个container的日志目录在此目录下，名字是container_{$contid}。每个container目录中包含stderr, stdin, and syslog等container产生的文件 
+存储container日志的地方。一个应用的本地日志目录定位是：${yarn.nodemanager.log-dirs}/application_${appid}。每个container的日志目录在此目录下，名字是container_{$contid}。每个container目录中包含stderr, stdin, and syslog等container产生的文件
 非常重要，建议配置多个磁盘
 
 yarn.log-aggregation-enable=FALSE
@@ -5599,11 +5646,11 @@ yarn.log-aggregation.retain-seconds=-1
 保存汇聚日志时间，秒，超过会删除，-1表示不删除。 注意，设置的过小，将导致NN垃圾碎片。建议3-7天 = 7 * 86400 = 604800
 
 yarn.nodemanager.log.retain-seconds=10800
-保留用户日志的时间，秒。在日志汇聚功能关闭时生效。 
+保留用户日志的时间，秒。在日志汇聚功能关闭时生效。
 建议7天
 
 yarn.nodemanager.remote-app-log-dir=/tmp/logs
-汇聚日志的地方，目录路径，HDFS系统。 
+汇聚日志的地方，目录路径，HDFS系统。
 对于开了权限检查的系统，注意权限问题。HDFS上。
 
 yarn.nodemanager.remote-app-log-dir-suffix=logs
@@ -5619,7 +5666,7 @@ yarn.nodemanager.webapp.address=0.0.0.0:8042
 NM的网页界面地址和端口。
 
 yarn.nodemanager.log-aggregation.compression-type=none
-汇聚日志的压缩类型。汇聚日志是TFile格式文件。Hadoop-3315。可以使用的值有none,lzo,gz等。 
+汇聚日志的压缩类型。汇聚日志是TFile格式文件。Hadoop-3315。可以使用的值有none,lzo,gz等。
 可以尝试
 
 yarn.nodemanager.aux-services=null
@@ -5707,8 +5754,8 @@ yarn.resourcemanager.keytab=/etc/krb5.keytab
 安全选项
 
 yarn.nm.liveness-monitor.expiry-interval-ms=600000
-RM判断NM死亡的时间间隔。 
-*非主动检查，被动等待，不连接时间超过此值 
+RM判断NM死亡的时间间隔。
+*非主动检查，被动等待，不连接时间超过此值
 10分钟无检查到活动，判定NM死亡*
 
 yarn.resourcemanager.nm.liveness-monitor.interval-ms=1000

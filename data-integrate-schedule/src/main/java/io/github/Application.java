@@ -2,21 +2,36 @@ package io.github;
 
 import io.github.entity.SimpleJob;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.*;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Random;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
-
-/**
- * @Author: jinwei.li@100credit.com
- * @Date: 2018/8/30 15:56
- */
 @Slf4j
+@SpringBootApplication
+@RestController
 public class Application {
-
+    @RequestMapping("/hello")
+    public String home(String name) throws InterruptedException {
+        Random ra = new Random();
+        Thread.sleep(ra.nextInt(1000));
+        return "Hello " + name;
+    }
     public static void main(String[] args) {
+        new SpringApplicationBuilder(Application.class).web(true).run(args);
+    }
+
+    public void schedule(){
         try {
             // Grab the Scheduler instance from the Factory
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
