@@ -12,6 +12,7 @@
         <module>data-integrate-schedule</module>
         <module>data-integrate-web</module>
         <module>data-integrate-eureka</module>
+        <module>data-integrate-parser</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -26,6 +27,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <kotlin.version>1.2.61</kotlin.version>
+        <antlr4.version>4.7.2</antlr4.version>
         <junit.version>4.12</junit.version>
     </properties>
     <dependencyManagement>

@@ -1,5 +1,14 @@
 package github;
 
+import com.br.mysql.MysqlAntlr4Visitor;
+import com.br.mysql.ParseErrorListener;
+import com.br.mysql.ParserHelper;
+import com.br.mysql.UpperCaseCharStream;
+import com.br.mysql.antlr4.MySqlLexer;
+import com.br.mysql.antlr4.MySqlParser;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.net.InetAddress;
@@ -73,5 +82,21 @@ public class BasicTest {
                 (byte) ((a >> 8) & 0xFF),
                 (byte) (a & 0xFF)
         };
+    }
+
+    @Test
+    public void testParser(){
+        String trimCmd = StringUtils.trim("select * from a");
+        UpperCaseCharStream charStream = new UpperCaseCharStream(CharStreams.fromString(trimCmd));
+        MySqlLexer lexer = new MySqlLexer(charStream);
+        lexer.removeErrorListeners();
+        lexer.addErrorListener(new ParseErrorListener());
+        CommonTokenStream tokenStream = new  CommonTokenStream(lexer);
+        MySqlParser parser = new  MySqlParser(tokenStream);
+        parser.removeErrorListeners();
+        parser.addErrorListener(new ParseErrorListener());
+        MysqlAntlr4Visitor sqlVisitor = new  MysqlAntlr4Visitor();
+        Object data = sqlVisitor.visit(parser.tableName());
+        System.out.println(data);
     }
 }

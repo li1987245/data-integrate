@@ -746,6 +746,7 @@ rpm -ivh mariadb-columnstore*.rpm
 - 卸载
 ```
 yum -y remove mari*
+rpm -qa | grep -i maria|awk '{print $1}'|xargs rpm -e
 rm -rf /usr/local/mariadb/columnstore
 rm -rf /tmp/*
 ```
@@ -770,4 +771,8 @@ CREATE TABLE `fact_api_product_d` (
 ) ENGINE=Columnstore DEFAULT CHARSET=utf8 COMMENT='公司对外Api请求日汇总表'
 truncate table fact_api_product_d;
 cpimport -m1 -s "|" data_insight fact_api_product_d  /root/fact_api_product_d.txt
+```
+- 查询
+```
+mcsmysql
 ```
