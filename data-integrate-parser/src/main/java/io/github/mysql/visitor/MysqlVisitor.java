@@ -20,6 +20,11 @@ public class MysqlVisitor extends MySqlParserBaseVisitor {
         return super.visitQuerySpecification(ctx);
     }
 
+    @Override
+    public Object visitTableName(MySqlParser.TableNameContext ctx) {
+        return super.visitTableName(ctx);
+    }
+
     /**
      * 5
      * @param ctx
@@ -156,4 +161,6 @@ public class MysqlVisitor extends MySqlParserBaseVisitor {
     public Object visitLimitClause(MySqlParser.LimitClauseContext ctx) {
         return super.visitLimitClause(ctx);
     }
+
+
 }
