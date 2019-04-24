@@ -13,6 +13,7 @@
         <module>data-integrate-web</module>
         <module>data-integrate-eureka</module>
         <module>data-integrate-parser</module>
+        <module>data-integrate-common</module>
     </modules>
     <packaging>pom</packaging>
 
