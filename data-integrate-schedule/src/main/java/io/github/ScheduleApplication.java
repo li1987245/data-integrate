@@ -20,15 +20,16 @@ import static org.quartz.TriggerBuilder.newTrigger;
 @Slf4j
 @SpringBootApplication
 @RestController
-public class Application {
+public class ScheduleApplication {
     @RequestMapping("/hello")
     public String home(String name) throws InterruptedException {
         Random ra = new Random();
         Thread.sleep(ra.nextInt(1000));
+        log.info(name);
         return "Hello " + name;
     }
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Application.class).web(true).run(args);
+        new SpringApplicationBuilder(ScheduleApplication.class).web(true).run(args);
     }
 
     public void schedule(){

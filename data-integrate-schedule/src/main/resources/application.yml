@@ -9,4 +9,4 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8079/eureka/
 server:
-  port: 8082
+  port: 8081

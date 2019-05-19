@@ -1,6 +1,18 @@
 spring:
   application:
     name: DATA-INTEGRATE-WEB
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+ribbon:
+  # 同一实例最大重试次数，不包括首次调用
+  MaxAutoRetries: 1
+  # 重试其他实例的最大重试次数，不包括首次所选的server
+  MaxAutoRetriesNextServer: 2
+  # 是否所有操作都进行重试，如果为false，不重试connect time out
+  OkToRetryOnAllOperations: true
 eureka:
   instance:
       hostname: ${spring.application.name}
@@ -9,4 +21,4 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8079/eureka/
 server:
-  port: 8080
+  port: 8088

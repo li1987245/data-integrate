@@ -22,7 +22,7 @@ public class RetryInterceptor implements Interceptor {
     }
 
     public RetryInterceptor(int retryCount) {
-        retryCount = retryCount;
+        this.retryCount = retryCount;
     }
 
     @Override
@@ -34,12 +34,13 @@ public class RetryInterceptor implements Interceptor {
         String url = request.url().toString();
         while (response == null && tryCount <= retryCount) {
             Request newRequest = request.newBuilder().url(url).build();
-            log.debug("intercept", "Request is not successful - " + tryCount);
+            log.debug("intercept Request is not successful - {}", tryCount);
             tryCount++;
             // retry the request
             response = doRequest(chain, newRequest);
         }
         if (response == null) {
+            log.warn("retry time:{}", retryCount);
             throw new IOException();
         }
         return response;
